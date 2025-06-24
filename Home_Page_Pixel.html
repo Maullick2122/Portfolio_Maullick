@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home_Page</title>
+  <link rel="stylesheet" href="Home_Page_Pixel.css" />
+</head>
+<body>
+
+  <div class="fixed-text">
+    <h1>Maullick Pushkarna</h1>
+    <nav>
+      <a href="./Projects.html">PROJECTS</a>
+      <a href="./index.html">ABOUT</a>
+      <a href="./Socials.html">SOCIALS</a>
+    </nav>
+  </div>
+
+  <!-- Scrolling Image Background -->
+    <div class="canvas-gallery">
+    <canvas data-src="Website_Updating/Stray renders/Horseback AO Fix.png"></canvas>
+    <canvas data-src="Website_Updating/Stray renders/Artstation Upload.png"></canvas>
+    <canvas data-src="Website_Updating/Stray renders/Artroom1.JPEG"></canvas>
+    <canvas data-src="Website_Updating/Stray renders/Kurosawa Insp Tree Haiku 1@2x.png"></canvas>
+    <canvas data-src="Website_Updating/Stray renders/maullick-gun4.jpg"></canvas>
+    <canvas data-src="Website_Updating/Stray renders/maullick-amur-poster.jpg"></canvas>
+    <canvas data-src="Website_Updating/Stray renders/Grace of the Sun@2x.png"></canvas>
+    <canvas data-src="Website_Updating/Stray renders/Wow.JPG"></canvas>
+  </div>
+
+
+ 
+
+  <script>
+    const canvases = document.querySelectorAll("canvas");
+
+    function pixelateImage(canvas, image, pixelSize) {
+      const ctx = canvas.getContext("2d");
+      const canvasWidth = canvas.clientWidth;
+      const canvasHeight = canvas.clientHeight;
+
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+
+      ctx.imageSmoothingEnabled = false;
+
+      const imgAspect = image.width / image.height;
+      const canvasAspect = canvasWidth / canvasHeight;
+
+      let drawWidth, drawHeight;
+      if (imgAspect > canvasAspect) {
+        drawHeight = canvasHeight;
+        drawWidth = canvasHeight * imgAspect;
+      } else {
+        drawWidth = canvasWidth;
+        drawHeight = canvasWidth / imgAspect;
+      }
+
+      const offsetX = (canvasWidth - drawWidth) / 2;
+      const offsetY = (canvasHeight - drawHeight) / 2;
+
+      const tempCanvas = document.createElement("canvas");
+      const tempCtx = tempCanvas.getContext("2d");
+
+      const scaledW = Math.max(1, Math.floor(drawWidth / pixelSize));
+      const scaledH = Math.max(1, Math.floor(drawHeight / pixelSize));
+
+      tempCanvas.width = scaledW;
+      tempCanvas.height = scaledH;
+
+      tempCtx.drawImage(image, 0, 0, scaledW, scaledH);
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      ctx.drawImage(tempCanvas, 0, 0, scaledW, scaledH, offsetX, offsetY, drawWidth, drawHeight);
+    }
+
+    function updatePixelation() {
+      canvases.forEach(canvas => {
+        const image = canvas.imageRef;
+        if (!image) return;
+
+        const rect = canvas.getBoundingClientRect();
+        const centerY = rect.top + rect.height / 2;
+        const screenCenter = window.innerHeight / 2;
+        const distance = Math.abs(centerY - screenCenter);
+        const maxDistance = window.innerHeight;
+
+        const pixelSize = Math.max(1, Math.floor((distance / maxDistance) * 30));
+
+        pixelateImage(canvas, image, pixelSize);
+      });
+    }
+
+    function loadImages() {
+      let loaded = 0;
+      canvases.forEach(canvas => {
+        const img = new Image();
+        img.src = canvas.dataset.src;
+        img.onload = () => {
+          canvas.imageRef = img;
+          loaded++;
+          if (loaded === canvases.length) {
+            updatePixelation();
+          }
+        };
+      });
+    }
+
+    window.addEventListener("scroll", () => {
+      requestAnimationFrame(updatePixelation);
+    });
+    window.addEventListener("resize", updatePixelation);
+
+    loadImages();
+  </script>
+
+</body>
+</html>
