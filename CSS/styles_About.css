@@ -9,9 +9,20 @@
             padding: 0;
         }
 
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+}
 
+.card {
+  flex: 1 1 300px;
+}
        
-
+@media (max-width: 768px) {
+  .grid {
+    flex-direction: column;
+  }
+}
         .navbar {
             display: flex;
             justify-content: space-between;
