@@ -1,0 +1,110 @@
+
+ html, body {
+      margin: 0;
+      padding: 0;
+      background: #111;
+      color: white;
+      font-family:"Rockwell";
+      overflow-x: hidden;
+    }
+    .canvas-gallery {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+     canvas {
+      width: 100vw;
+      height: 100vh;
+      max-width: 100%;
+      display: block;
+      object-fit: contain;
+      background: black;
+    }
+   
+  .fixed-text {
+  position: fixed;
+  z-index: 1;
+  height: 100vh;
+  margin-left: 450px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  pointer-events: none; /* Allows hover on nav if desired */
+}
+
+.fixed-text h1 {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+  pointer-events: auto;
+}
+
+nav {
+  pointer-events: auto;
+}
+
+nav a {
+  color: white;
+  margin: 0 1.2rem;
+  font-size: 1.2rem;
+  text-decoration: none;
+  position: relative;
+}
+
+nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  left: 0;
+  bottom: -4px;
+  background-color: white;
+  transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+ .overlay-container {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      pointer-events: none;
+    }
+    .overlay {
+      text-align: center;
+      pointer-events: auto;
+    }
+    .overlay h1 {
+      font-size: 6vw;
+      margin: 0.5em 0;
+    }
+    .overlay nav a {
+      margin: 0 1em;
+      text-decoration: none;
+      color: white;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    @media (max-width: 768px) {
+      .overlay h1 {
+        font-size: 8vw;
+      }
+      .overlay nav a {
+        font-size: 4vw;
+        display: block;
+        margin: 1em 0;
+      }
+    }
